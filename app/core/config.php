@@ -22,6 +22,9 @@ if($_SERVER['SERVER_NAME']=='localhost'){
 	define('DBPASS', 'Kashya@12345');
 	define('DBDRIVER', 'mysql');
 
+	//Root Path eg: localhost
+	define('ROOT', 'http://localhost/Rearch/public');
+
 }else{
 
 	//database config for your liver server
@@ -30,5 +33,8 @@ if($_SERVER['SERVER_NAME']=='localhost'){
 	define('DBUSER', 'root');
 	define('DBPASS', 'Kashya@12345');
 	define('DBDRIVER', 'mysql');
+
+	//Root Path eg: www.yourwebsite.com
+	define('ROOT', 'http://www.yourwebsite.com');
 }
 
