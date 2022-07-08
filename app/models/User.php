@@ -3,7 +3,7 @@
 /**
  * Users Model
  */
-class User 
+class User extends Model
 {
 	public    $errors         = [];
 	protected $table          = "users";
@@ -40,13 +40,15 @@ class User
 		// }
 
 		//Check Email
-		if(empty($data['user_email'])){
-			$this->errors['user_email'] = "User Email is required";
+
+		$query = "SELECT * FROM users WHERE user_email = : user_email LIMIT 1";
+ 
+		if(!filter_var($data['user_email'],FILTER_VALIDATE_EMAIL)){
+			$this->errors['user_email'] = "Email is not Valid";
+		}else
+		if($this->query($query,['user_email' => $data['user_email']])){
+			$this->errors['user_email'] = "That Email Already Existed";
 		}
-		// else
-		// if(!filter_var($data['user_email'],FILTER_VALIDATE_EMAIL)){
-		// 	$this->errors['user_email'] = "User Email is not Valid";
-		// }
 
 		if(empty($data['user_password'])){
 
@@ -68,35 +70,6 @@ class User
 		}
 
 		return false;
-	}
-
-	public function insert($data){
-
-		//remove unwanted column
-
-		if(!empty($this->allowedColumns)){
-
-			foreach ($data as $key => $value) {
-
-				//check whether a particular key from ($_POST) is inside in our allowedColumns
-
-				if(!in_array($key, $this->allowedColumns)){
-
-					unset($data[$key]);
-				}
-			}
-		}
-
-		//Get the remaining Keys from data to be inserted
-
-		$keys   = array_keys($data);
-		$query  = "INSERT INTO $this->table";
-		$query .= "(".implode(",",$keys) .") VALUES(:".implode(",:",$keys) .")";
-
-		//run query
-
-		$db     = new Database();
-		$result = $db->query($query,$data);
 	}
 
 }
