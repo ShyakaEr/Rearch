@@ -57,43 +57,43 @@
                     <p class="text-center small">Enter your personal details to create account</p>
                   </div>
 
-                  <form class="row g-3 needs-validation" novalidate>
-                    <div class="col-12">
+                  <form class="row g-3 needs-validation" method="POST">
+                    <div class="col-6">
                       <label for="yourName" class="form-label">First Name</label>
-                      <input type="text" name="first_name" class="form-control" id="yourName" required>
+                      <input value="<?= set_value('first_name');?>" type="text" name="first_name" class="form-control"  required1>
                       <div class="invalid-feedback">Please, enter your name!</div>
                     </div>
 
-                    <div class="col-12">
+                    <div class="col-6">
                       <label for="yourName2" class="form-label">Last Name</label>
-                      <input type="text" name="last_name" class="form-control" id="yourName" required>
+                      <input value="<?= set_value('last_name');?>" type="text" name="last_name" class="form-control"  required1>
                       <div class="invalid-feedback">Please, enter your name!</div>
                     </div>
 
                     <div class="col-12">
-                      <label for="yourEmail" class="form-label">Your Email</label>
-                      <input type="email" name="email" class="form-control" id="yourEmail" required>
-                      <div class="invalid-feedback">Please enter a valid Email adddress!</div>
-                    </div>
-
-                    <div class="col-12">
-                      <label for="yourUsername" class="form-label">Username</label>
+                      <label for="yourUsername" class="form-label">User Email</label>
                       <div class="input-group has-validation">
                         <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" name="username" class="form-control" id="yourUsername" required>
+                        <input value="<?= set_value('user_email');?>" type="email" name="user_email" class="form-control"  required1>
                         <div class="invalid-feedback">Please choose a username.</div>
                       </div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" required>
+                      <input value="<?= set_value('user_password');?>" type="password" name="user_password" class="form-control" required1>
+                      <div class="invalid-feedback">Please enter your password!</div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourPassword" class="form-label">Confirm Password</label>
+                      <input value="<?= set_value('confirm_password');?>" type="password" name="confirm_password" class="form-control" required1>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
                     <div class="col-12">
                       <div class="form-check">
-                        <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" required>
+                        <input <?= set_value('terms') ? 'checked':'';?> class="form-check-input" name="terms" type="checkbox" value="1" required1>
                         <label class="form-check-label" for="acceptTerms">I agree and accept the <a href="#">terms and conditions</a></label>
                         <div class="invalid-feedback">You must agree before submitting.</div>
                       </div>
@@ -111,7 +111,7 @@
 
               <div class="credits">
                
-                Designed by <a href="https://bootstrapmade.com/">SHYAKA</a>
+                Designed by <a href="">SHYAKA</a>
               </div>
 
             </div>
