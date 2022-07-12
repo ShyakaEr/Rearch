@@ -74,8 +74,12 @@
                       <label for="yourUsername" class="form-label">User Email</label>
                       <div class="input-group has-validation">
                         <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input value="<?= set_value('user_email');?>" type="email" name="user_email" class="form-control"  required1>
+                        <input value="<?= set_value('user_email');?>" type="email" name="user_email" class="form-control 
+                        <?=(!empty($errors['user_email']) ? 'border-danger':'');?>"  required1>
                         <div class="invalid-feedback">Please choose a username.</div>
+                        <?php if(!empty($errors['user_email'])):?>
+                        <small class="text-danger"><?=$errors['user_email']?></small>
+                      <?php endif;?>
                       </div>
                     </div>
 

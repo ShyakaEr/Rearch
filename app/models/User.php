@@ -41,12 +41,10 @@ class User extends Model
 
 		//Check Email
 
-		$query = "SELECT * FROM users WHERE user_email = : user_email LIMIT 1";
- 
 		if(!filter_var($data['user_email'],FILTER_VALIDATE_EMAIL)){
 			$this->errors['user_email'] = "Email is not Valid";
 		}else
-		if($this->query($query,['user_email' => $data['user_email']])){
+		if($this->whereClause(['user_email' => $data['user_email']])){
 			$this->errors['user_email'] = "That Email Already Existed";
 		}
 

@@ -34,4 +34,29 @@ class Model extends Database
 
 		$this->query($query,$data);
 	}
+
+	public function whereClause($data){
+
+		$keys = array_keys($data);
+		$query= "SELECT * FROM ".$this->table."WHERE ";
+
+		//For Into Keys
+
+		foreach($keys as $key){
+
+			$query .= $key . "=" . $key . " && ";
+		}
+
+		//Remove the &&
+
+		$query = trim($query, "&& ");
+		$result=$this->query($query,$data);
+
+		if(is_array($result)){
+
+			return $result;
+		}
+
+		return false;
+	}
 }
