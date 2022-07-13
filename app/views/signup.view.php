@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title><?= APP_NAME;?></title>
+  <title>Register -  <?= APP_NAME;?></title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -57,17 +57,27 @@
                     <p class="text-center small">Enter your personal details to create account</p>
                   </div>
 
+                  <?php if(message()):?>
+                    <div class="alert alert-danger text-center"><?=message('',true);?></div>
+                  <?php endif;?>
+
                   <form class="row g-3 needs-validation" method="POST">
                     <div class="col-6">
                       <label for="yourName" class="form-label">First Name</label>
-                      <input value="<?= set_value('first_name');?>" type="text" name="first_name" class="form-control"  required1>
+                      <input value="<?= set_value('first_name');?>" type="text" name="first_name" class="form-control <?=(!empty($errors['first_name']) ? 'border-danger':'');?>"  required1>
                       <div class="invalid-feedback">Please, enter your name!</div>
+                       <?php if(!empty($errors['first_name'])):?>
+                        <small class="text-danger"><?=$errors['first_name']?></small>
+                      <?php endif;?>
                     </div>
 
                     <div class="col-6">
                       <label for="yourName2" class="form-label">Last Name</label>
-                      <input value="<?= set_value('last_name');?>" type="text" name="last_name" class="form-control"  required1>
+                      <input value="<?= set_value('last_name');?>" type="text" name="last_name" class="form-control <?=(!empty($errors['last_name']) ? 'border-danger':'');?>"  required1>
                       <div class="invalid-feedback">Please, enter your name!</div>
+                      <?php if(!empty($errors['last_name'])):?>
+                        <small class="text-danger"><?=$errors['last_name']?></small>
+                      <?php endif;?>
                     </div>
 
                     <div class="col-12">
@@ -77,22 +87,28 @@
                         <input value="<?= set_value('user_email');?>" type="email" name="user_email" class="form-control 
                         <?=(!empty($errors['user_email']) ? 'border-danger':'');?>"  required1>
                         <div class="invalid-feedback">Please choose a username.</div>
-                        <?php if(!empty($errors['user_email'])):?>
+                      </div>
+                      <?php if(!empty($errors['user_email'])):?>
                         <small class="text-danger"><?=$errors['user_email']?></small>
                       <?php endif;?>
-                      </div>
                     </div>
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input value="<?= set_value('user_password');?>" type="password" name="user_password" class="form-control" required1>
+                      <input value="" type="password" name="user_password" class="form-control <?=(!empty($errors['user_password']) ? 'border-danger':'');?>" required1>
                       <div class="invalid-feedback">Please enter your password!</div>
+                      <?php if(!empty($errors['user_password'])):?>
+                        <small class="text-danger"><?=$errors['user_password']?></small>
+                      <?php endif;?>
                     </div>
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Confirm Password</label>
-                      <input value="<?= set_value('confirm_password');?>" type="password" name="confirm_password" class="form-control" required1>
+                      <input value="" type="password" name="confirm_password" class="form-control <?=(!empty($errors['user_password']) ? 'border-danger':'');?>" required1>
                       <div class="invalid-feedback">Please enter your password!</div>
+                      <?php if(!empty($errors['user_password'])):?>
+                        <small class="text-danger"><?=$errors['user_password']?></small>
+                      <?php endif;?>
                     </div>
 
                     <div class="col-12">
@@ -100,6 +116,9 @@
                         <input <?= set_value('terms') ? 'checked':'';?> class="form-check-input" name="terms" type="checkbox" value="1" required1>
                         <label class="form-check-label" for="acceptTerms">I agree and accept the <a href="#">terms and conditions</a></label>
                         <div class="invalid-feedback">You must agree before submitting.</div>
+                      <?php if(!empty($errors['terms'])):?>
+                        <small class="text-danger"><?=$errors['terms']?></small>
+                      <?php endif;?>
                       </div>
                     </div>
                     <div class="col-12">
