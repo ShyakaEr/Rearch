@@ -44,7 +44,7 @@ class User extends Model
 		if(!filter_var($data['user_email'],FILTER_VALIDATE_EMAIL)){
 			$this->errors['user_email'] = "Email is not Valid";
 		}else
-		if($this->whereClause(['user_email' => $data['user_email']])){
+		if($this->where(['user_email' => $data['user_email']])){
 			$this->errors['user_email'] = "That Email Already Existed";
 		}
 

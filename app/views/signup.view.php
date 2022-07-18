@@ -64,7 +64,7 @@
                   <form class="row g-3 needs-validation" method="POST">
                     <div class="col-6">
                       <label for="yourName" class="form-label">First Name</label>
-                      <input value="<?= set_value('first_name');?>" type="text" name="first_name" class="form-control <?=(!empty($errors['first_name']) ? 'border-danger':'');?>"  required1>
+                      <input value="<?= set_value('first_name');?>" type="text" name="first_name" class="form-control <?=(!empty($errors['first_name']) ? 'border-danger':'');?>"  required>
                       <div class="invalid-feedback">Please, enter your name!</div>
                        <?php if(!empty($errors['first_name'])):?>
                         <small class="text-danger"><?=$errors['first_name']?></small>
@@ -73,7 +73,7 @@
 
                     <div class="col-6">
                       <label for="yourName2" class="form-label">Last Name</label>
-                      <input value="<?= set_value('last_name');?>" type="text" name="last_name" class="form-control <?=(!empty($errors['last_name']) ? 'border-danger':'');?>"  required1>
+                      <input value="<?= set_value('last_name');?>" type="text" name="last_name" class="form-control <?=(!empty($errors['last_name']) ? 'border-danger':'');?>"  required>
                       <div class="invalid-feedback">Please, enter your name!</div>
                       <?php if(!empty($errors['last_name'])):?>
                         <small class="text-danger"><?=$errors['last_name']?></small>
@@ -85,7 +85,7 @@
                       <div class="input-group has-validation">
                         <span class="input-group-text" id="inputGroupPrepend">@</span>
                         <input value="<?= set_value('user_email');?>" type="email" name="user_email" class="form-control 
-                        <?=(!empty($errors['user_email']) ? 'border-danger':'');?>"  required1>
+                        <?=(!empty($errors['user_email']) ? 'border-danger':'');?>"  required>
                         <div class="invalid-feedback">Please choose a username.</div>
                       </div>
                       <?php if(!empty($errors['user_email'])):?>
@@ -95,7 +95,7 @@
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input value="" type="password" name="user_password" class="form-control <?=(!empty($errors['user_password']) ? 'border-danger':'');?>" required1>
+                      <input value="" type="password" name="user_password" class="form-control <?=(!empty($errors['user_password']) ? 'border-danger':'');?>" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                       <?php if(!empty($errors['user_password'])):?>
                         <small class="text-danger"><?=$errors['user_password']?></small>
@@ -104,7 +104,7 @@
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Confirm Password</label>
-                      <input value="" type="password" name="confirm_password" class="form-control <?=(!empty($errors['user_password']) ? 'border-danger':'');?>" required1>
+                      <input value="" type="password" name="confirm_password" class="form-control <?=(!empty($errors['user_password']) ? 'border-danger':'');?>" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                       <?php if(!empty($errors['user_password'])):?>
                         <small class="text-danger"><?=$errors['user_password']?></small>
@@ -113,7 +113,7 @@
 
                     <div class="col-12">
                       <div class="form-check">
-                        <input <?= set_value('terms') ? 'checked':'';?> class="form-check-input" name="terms" type="checkbox" value="1" required1>
+                        <input <?= set_value('terms') ? 'checked':'';?> class="form-check-input" name="terms" type="checkbox" value="1" required>
                         <label class="form-check-label" for="acceptTerms">I agree and accept the <a href="#">terms and conditions</a></label>
                         <div class="invalid-feedback">You must agree before submitting.</div>
                       <?php if(!empty($errors['terms'])):?>

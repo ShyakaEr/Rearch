@@ -35,16 +35,16 @@ class Model extends Database
 		$this->query($query,$data);
 	}
 
-	public function whereClause($data){
+	public function where($data){
 
 		$keys = array_keys($data);
-		$query= "SELECT * FROM ".$this->table."WHERE ";
+		$query= "select * from ".$this->table." where ";
 
 		//For Into Keys
 
 		foreach($keys as $key){
 
-			$query .= $key . "=" . $key . " && ";
+			$query .= $key . "=:" . $key . " && ";
 		}
 
 		//Remove the &&
@@ -55,6 +55,31 @@ class Model extends Database
 		if(is_array($result)){
 
 			return $result;
+		}
+
+		return false;
+	}
+
+	public function first($data){
+
+		$keys = array_keys($data);
+		$query= "select * from ".$this->table." where ";
+
+		//For Into Keys
+
+		foreach($keys as $key){
+
+			$query .= $key . "=:" . $key . " && ";
+		}
+
+		//Remove the &&
+
+		$query  = trim($query, "&& ");
+		$query .= " order by id desc limit 1";
+		$result = $this->query($query,$data);
+		if(is_array($result)){
+
+			return $result[0];
 		}
 
 		return false;

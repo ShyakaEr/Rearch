@@ -19,7 +19,7 @@ class Signup extends Controller
 				$_POST['create_at'] = date('Y-m-d H:i:s');
 				$user->insert($_POST);
 				message('Your Profile has successful created. Please Login');
-				//redirect('login');
+				redirect('login');
 		     }
 		}
 

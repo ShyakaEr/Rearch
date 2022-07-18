@@ -62,24 +62,28 @@
                     <p class="text-center small">Enter your username & password to login</p>
                   </div>
                   
-                   <?php if(message()):?>
+                  <?php if(message()):?>
                     <div class="alert alert-danger text-center"><?=message('',true);?></div>
                   <?php endif;?>
 
-                  <form class="row g-3 needs-validation" novalidate>
+                  <?php if(!empty($errors['user_email'])):?>
+                    <div class="alert alert-danger text-center"><?=$errors['user_email']?></div>
+                  <?php endif;?>
+
+                  <form class="row g-3 needs-validation" method="POST" novalidate>
 
                     <div class="col-12">
-                      <label for="yourUsername" class="form-label">Username</label>
                       <div class="input-group has-validation">
-                        <span class="input-group-text" id="inputGroupPrepend">@</span>
-                        <input type="text" name="username" class="form-control" id="yourUsername" required>
-                        <div class="invalid-feedback">Please enter your username.</div>
+                        <span class="input-group-text" id="inputGroupPrepend">Email</span>
+                        <input value="<?= set_value('user_email');?>" type="text" name="user_email" class="form-control" id="yourUsername" required>
+                        <div class="invalid-feedback">Please enter your email.</div>
                       </div>
+
                     </div>
 
                     <div class="col-12">
                       <label for="yourPassword" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="yourPassword" required>
+                      <input type="password" name="user_password" class="form-control" id="yourPassword" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
