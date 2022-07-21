@@ -4,7 +4,7 @@
 app info 
 */
 
-define('APP_NAME', 'Rearch Academy');
+define('APP_NAME', 'Rearch Clone');
 define('APP_DESC', 'E-learning Tutorial');
 
 /*
