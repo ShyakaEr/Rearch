@@ -21,7 +21,7 @@ class App{
 		}
 
 		$mycontroller = new $this->controller();
-		$mymethod     = $arr[1] ?? $this->method;
+		$method     = $arr[1] ?? $this->method;
 
 		if(!empty($arr[1])){
 

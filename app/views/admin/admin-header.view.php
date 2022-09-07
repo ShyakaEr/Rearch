@@ -224,7 +224,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="<?=ROOT;?>/admin/profile">
                 <i class="bi bi-person"></i>
                 <span>My Profile</span>
               </a>
@@ -234,7 +234,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="users-profile.html">
+              <a class="dropdown-item d-flex align-items-center" href="<?=ROOT;?>/admin/profile">
                 <i class="bi bi-gear"></i>
                 <span>Account Settings</span>
               </a>
@@ -254,7 +254,7 @@
             </li>
 
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
+              <a class="dropdown-item d-flex align-items-center" href="<?=ROOT?>/logout">
                 <i class="bi bi-box-arrow-right"></i>
                 <span>Sign Out</span>
               </a>
@@ -281,12 +281,51 @@
       </li><!-- End Dashboard Nav -->
 
       <li class="nav-item">
-        <a class="nav-link " href="<?=ROOT;?>/admin">
+        <a class="nav-link " href="<?=ROOT;?>/admin/courses">
+          <i class="bi bi-camera-reels"></i>
+          <span>My Courses</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link " href="<?=ROOT;?>/admin/lessons">
+          <i class="bi bi-person-video3"></i>
+          <span>Enrolled Courses</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link " href="<?=ROOT;?>/admin/watch_history">
+          <i class="bi bi-hourglass-split"></i>
+          <span>Watch History</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link " href="<?=ROOT;?>/admin/sales">
+          <i class="bi bi-cash-coin"></i>
+          <span>Sales</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
+
+      <li class="nav-item">
+        <a class="nav-link " href="<?=ROOT;?>/admin/profile">
           <i class="bi bi-person"></i>
           <span>Profile</span>
         </a>
       </li><!-- End Dashboard Nav -->
       
+      <li class="nav-heading">Go to </li>
+
+      <li class="nav-item">
+        <a class="nav-link " href="<?=ROOT;?>/">
+          <i class="bi bi-globe"></i>
+          <span>Home</span>
+        </a>
+      </li><!-- End Dashboard Nav -->
     </ul>
 
   </aside><!-- End Sidebar-->
+
+  <main id ="main" class="main">
+
