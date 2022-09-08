@@ -84,4 +84,43 @@ class Model extends Database
 
 		return false;
 	}
+
+	public function update($id,$data){
+
+		//remove unwanted column
+
+		if(!empty($this->allowedColumns)){
+
+			foreach ($data as $key => $value) {
+
+				//check whether a particular key from ($_POST) is inside in our allowedColumns
+
+				if(!in_array($key, $this->allowedColumns)){
+
+					unset($data[$key]);
+				}
+			}
+		}
+
+		//Get the remaining Keys from data to be inserted
+
+		$keys   = array_keys($data);
+
+		$query  = "UPDATE ".$this->table." SET ";
+
+		foreach($keys as $key){
+
+			$query .= $key ."=:" . $key . ",";
+		}
+
+		//Remove comas(,)
+
+		$query      = trim($query,",");
+		$query     .= " WHERE id=:id";
+
+		//Include Id to the part of Data
+
+		$data['id'] = $id;
+		$this->query($query,$data);
+	}
 }

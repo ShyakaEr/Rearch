@@ -15,6 +15,14 @@ class User extends Model
 		'role',
 		'user_password',
 		'create_at',
+		'about',
+		'company',
+		'job',
+		'country',
+		'address',
+		'phone',
+		'slug',
+		'image',
 	]; 
 	
 	public function validate($data)

@@ -63,7 +63,9 @@
 
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
                   <h5 class="card-title">About</h5>
-                  <p class="small fst-italic">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</p>
+                  <p class="small fst-italic">
+                  <?=esc($data['row']->about)?>
+                  </p>
 
                   <h5 class="card-title">Profile Details</h5>
 
@@ -74,7 +76,7 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Company</div>
-                    <div class="col-lg-9 col-md-8"></div>
+                    <div class="col-lg-9 col-md-8"><?=esc($data['row']->company)?></div>
                   </div>
 
                   <div class="row">
@@ -84,17 +86,17 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Country</div>
-                    <div class="col-lg-9 col-md-8"></div>
+                    <div class="col-lg-9 col-md-8"><?=esc($data['row']->country)?></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Address</div>
-                    <div class="col-lg-9 col-md-8"></div>
+                    <div class="col-lg-9 col-md-8"><?=esc($data['row']->address)?></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Phone</div>
-                    <div class="col-lg-9 col-md-8"></div>
+                    <div class="col-lg-9 col-md-8"><?=esc($data['row']->phone)?></div>
                   </div>
 
                   <div class="row">
@@ -107,71 +109,87 @@
                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                   <!-- Profile Edit Form -->
-                  <form>
+                  <form method="POST" enctype="multipart/form-data">
                     <div class="row mb-3">
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                       <div class="col-md-8 col-lg-9">
-                        <img src="<?=ROOT;?>/nice/assets/img/profile-img.jpg" alt="Profile">
+                      <div class="d-flex">
+                        <img class="js-image-preview"  src="<?=ROOT;?>/nice/assets/img/profile-img.jpg" alt="Profile" style="width:200px;max-width:200px;height:200px;object-fit:cover">
+                        <div class="js-filename m-2">Selected File : None</div>
+                      </div>
+
                         <div class="pt-2">
-                          <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
+                          <label href="#" class="btn btn-primary btn-sm" title="Upload new profile image">
+                            <i class="text-white bi bi-upload"></i>
+                            <input onchange="load_image(this.files[0])" type="file" name="image" style="display:none;">
+                        </label>
                           <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
                         </div>
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+                      <label for="first_name" class="col-md-4 col-lg-3 col-form-label">First Name</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="fullName" type="text" class="form-control" id="fullName" value="Kevin Anderson">
+                        <input name="first_name" type="text" class="form-control" id="first_name" value="<?=set_value('first_name',$data['row']->first_name);?>">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="last_name" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="last_name" type="text" class="form-control" id="last_name" value="<?=set_value('last_name',$data['row']->last_name);?>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
                       <div class="col-md-8 col-lg-9">
-                        <textarea name="about" class="form-control" id="about" style="height: 100px">Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.</textarea>
+                        <textarea name="about" class="form-control" id="about" style="height: 100px">
+                        <?=set_value('about',$data['row']->about);?>
+                        </textarea>
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="company" class="col-md-4 col-lg-3 col-form-label">Company</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="company" type="text" class="form-control" id="company" value="Lueilwitz, Wisoky and Leuschke">
+                        <input name="company" type="text" class="form-control" id="company" value="<?=set_value('company',$data['row']->company);?>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="job" type="text" class="form-control" id="Job" value="Web Designer">
+                        <input name="job" type="text" class="form-control" id="Job" value="<?=set_value('job',$data['row']->job);?>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="country" type="text" class="form-control" id="Country" value="USA">
+                        <input name="country" type="text" class="form-control" id="Country" value="<?=set_value('country',$data['row']->country);?>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="address" type="text" class="form-control" id="Address" value="A108 Adam Street, New York, NY 535022">
+                        <input name="address" type="text" class="form-control" id="Address" value="<?=set_value('address',$data['row']->address);?>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="phone" type="text" class="form-control" id="Phone" value="(436) 486-3538 x29071">
+                        <input name="phone" type="text" class="form-control" id="Phone" value="<?=set_value('phone',$data['row']->phone);?>">
                       </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="email" type="email" class="form-control" id="Email" value="k.anderson@example.com">
+                        <input name="user_email" type="email" class="form-control" id="Email" value="<?=set_value('user_email',$data['row']->user_email);?>">
                       </div>
                     </div>
 
@@ -204,7 +222,10 @@
                     </div>
 
                     <div class="text-center">
-                      <button type="submit" class="btn btn-primary">Save Changes</button>
+                      <a href="<?=ROOT;?>/admin">
+                      <button type="button" class="btn btn-primary float-start">Back</button>
+                      </a>
+                      <button type="submit" class="btn btn-danger float-end">Save Changes</button>
                     </div>
                   </form><!-- End Profile Edit Form -->
 
@@ -298,4 +319,15 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php endif;?>
+    <script>
+      function load_image(file)
+      {
+         document.querySelector(".js-filename").innerHTML="Selected File: " + file.name;
+
+         //create local resources for images
+
+         var mylink = window.URL.createObjectURL(file);
+         document.querySelector(".js-image-preview").src = mylink;
+      }
+    </script>
   <?php $this->view('admin/admin-footer',$data);?>
