@@ -23,6 +23,10 @@ class User extends Model
 		'phone',
 		'slug',
 		'image',
+		'facebook_link',
+		'twitter_link',
+		'instagram_link',
+		'linkedin_link',
 	]; 
 	
 	public function validate($data)
@@ -69,6 +73,67 @@ class User extends Model
 		if(empty($data['terms'])){
 
 			$this->errors['terms'] = 'Please accept terms and conditions';
+		}
+
+		if(empty($errors)){
+			return true;
+		}
+
+		return false;
+	}
+
+	public function edit_validate($data)
+	{
+		$this->errors = [];
+
+		//Check first_name
+		if(empty($data['first_name'])){
+			$this->errors['first_name'] = "First name is required";
+		}
+
+		//Check last_name
+		if(empty($data['last_name'])){
+			$this->errors['last_name'] = "Last name is required";
+		}
+
+		//Check Email
+
+		if(!filter_var($data['user_email'],FILTER_VALIDATE_EMAIL)){
+			$this->errors['user_email'] = "Email is not Valid";
+		}else
+		if($this->where(['user_email' => $data['user_email']])){
+			$this->errors['user_email'] = "That Email Already Existed";
+		}
+		//Facebook Validation
+		if(!empty($data['facebook_link'])){
+
+			if(!filter_var($data['facebook_link'],FILTER_VALIDATE_URL)){
+				$this->errors['facebook_link'] = "Facebook Link iss not Valid";
+			}
+		}
+
+		//Linkedin Validation
+		if(!empty($data['linkedin_link'])){
+
+			if(!filter_var($data['linkedin_link'],FILTER_VALIDATE_URL)){
+				$this->errors['linkedin_link'] = "Linkedin Link is not Valid";
+			}
+		}
+
+		//Instagram Validation
+		if(!empty($data['instagram_link'])){
+
+			if(!filter_var($data['instagram_link'],FILTER_VALIDATE_URL)){
+				$this->errors['instagram_link'] = "Instagram Link is not Valid";
+			}
+		}
+
+		//Twitter Validation
+		if(!empty($data['twitter_link'])){
+
+			if(!filter_var($data['twitter_link'],FILTER_VALIDATE_URL)){
+				$this->errors['twitter_link'] = "Twitter Link iss not Valid";
+			}
 		}
 
 		if(empty($errors)){

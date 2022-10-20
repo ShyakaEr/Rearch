@@ -43,7 +43,9 @@ class Admin extends Controller
 				file_put_contents($folder."index.php","<?php //silence");
 				file_put_contents("uploads/index.php","<?php //silence");
 			}
-			
+
+			//Validate data
+			if($user->edit_validate($data)){
 
 			$allowed  = ['image/jpeg','image/png'];
 
@@ -59,6 +61,12 @@ class Admin extends Controller
 						move_uploaded_file($_FILES['image']['tmp_name'],$destination);
 
 						$_POST['image'] = $destination;
+
+						//Delete the older image
+						if(file_exists($row->image)){
+							unlink($row->image);
+						}
+
 					}else{
 						$user->errors['image'] = "This file type is not allowed";
 					}
@@ -69,7 +77,11 @@ class Admin extends Controller
 			$user->update($id,$_POST);
 			redirect('admin/profile/'.$id);
 		}
+			
+		}
 		$data['title'] = "Profile";
+		$data['errors']= $user->errors;
+		
 		$this->view('admin/profile',$data);
 	}
 

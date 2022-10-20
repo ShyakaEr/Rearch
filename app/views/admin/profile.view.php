@@ -21,7 +21,7 @@
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-              <img src="<?=ROOT;?>/nice/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+              <img src="<?=ROOT;?>/<?=esc($data['row']->image)?>" alt="Profile" class="rounded-circle" style="width:150px;max-width:150px;height:150px;object-fit:cover;">
               <h2><?=esc($data['row']->first_name)?>  <?=esc($data['row']->last_name) ;?></h2>
               <h3><?=esc($data['row']->role);?></h3>
               <div class="social-links mt-2">
@@ -43,19 +43,19 @@
               <ul class="nav nav-tabs nav-tabs-bordered">
 
                 <li class="nav-item">
-                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview" id="profile-overview-tab">Overview</button>
                 </li>
 
                 <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit" id="profile-edit-tab">Edit Profile</button>
                 </li>
 
                 <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button>
+                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings" id="profile-settings-tab">Settings</button>
                 </li>
 
                 <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
+                  <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password" id="profile-change-password-tab">Change Password</button>
                 </li>
 
               </ul>
@@ -114,7 +114,7 @@
                       <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
                       <div class="col-md-8 col-lg-9">
                       <div class="d-flex">
-                        <img class="js-image-preview"  src="<?=ROOT;?>/nice/assets/img/profile-img.jpg" alt="Profile" style="width:200px;max-width:200px;height:200px;object-fit:cover">
+                        <img class="js-image-preview"  src="<?=ROOT;?>/<?=esc($data['row']->image)?>" alt="Profile" style="width:150px;max-width:150px;height:150px;object-fit:cover;" alt="Profile" style="width:200px;max-width:200px;height:200px;object-fit:cover">
                         <div class="js-filename m-2">Selected File : None</div>
                       </div>
 
@@ -196,29 +196,41 @@
                     <div class="row mb-3">
                       <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="twitter" type="text" class="form-control" id="Twitter" value="https://twitter.com/#">
+                        <input name="titter_link" type="text" class="form-control" id="Twitter" value="https://twitter.com/#">
                       </div>
+                      <?php if(!empty($errors['titter_link'])):?>
+                        <small class="text-danger"><?=$errors['titter_link']?></small>
+                      <?php endif;?>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="facebook" type="text" class="form-control" id="Facebook" value="https://facebook.com/#">
+                        <input name="facebook_link" type="text" class="form-control" id="Facebook" value="https://facebook.com/#">
                       </div>
+                      <?php if(!empty($errors['facebook_link'])):?>
+                        <small class="text-danger"><?=$errors['facebook_link']?></small>
+                      <?php endif;?>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="instagram" type="text" class="form-control" id="Instagram" value="https://instagram.com/#">
+                        <input name="instagram_link" type="text" class="form-control" id="Instagram" value="https://instagram.com/#">
                       </div>
+                      <?php if(!empty($errors['instagram_link'])):?>
+                        <small class="text-danger"><?=$errors['instagram_link']?></small>
+                      <?php endif;?>
                     </div>
 
                     <div class="row mb-3">
                       <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="linkedin" type="text" class="form-control" id="Linkedin" value="https://linkedin.com/#">
+                        <input name="linkedin_link" type="text" class="form-control" id="Linkedin" value="https://linkedin.com/#">
                       </div>
+                      <?php if(!empty($errors['linkedin_link'])):?>
+                        <small class="text-danger"><?=$errors['linkedin_link']?></small>
+                      <?php endif;?>
                     </div>
 
                     <div class="text-center">
@@ -320,6 +332,25 @@
         </div>
     <?php endif;?>
     <script>
+
+      // Get Session from local storage
+      
+      var tab = sessionStorage.getItem("tab") ? sessionStorage.getItem("tab") : "#profile-overview";
+
+      //Call Specific Tab
+      function show_tab(tab_name){
+        const someTabTriggerEl = document.querySelector(tab_name + "-tab");
+        const tab = new bootstrap.Tab(someTabTriggerEl);
+        tab.show();
+      }
+
+      function set_tab(tab_name){
+        tab = tab_name;
+        sessionStorage.setItem("tab",tab_name);
+       
+      }
+
+      //Load and seen directly the upload image
       function load_image(file)
       {
          document.querySelector(".js-filename").innerHTML="Selected File: " + file.name;
@@ -328,6 +359,11 @@
 
          var mylink = window.URL.createObjectURL(file);
          document.querySelector(".js-image-preview").src = mylink;
+      }
+
+      //Supply a show_tab when window is loaded
+      window.onload = function(){
+        show_tab(tab);
       }
     </script>
   <?php $this->view('admin/admin-footer',$data);?>
