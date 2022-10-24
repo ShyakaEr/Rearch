@@ -36,20 +36,18 @@ class User extends Model
 		//Check first_name
 		if(empty($data['first_name'])){
 			$this->errors['first_name'] = "First name is required";
+		}else
+		if(!preg_match("/^[a-zA-Z]+$/",trim($data['first_name']))){
+			$this->errors['first_name'] = "First name can only have Letters Without Spaces";
 		}
-		// else
-		// if(!preg_match('/[a-zA-Z]/',$data['first_name'])){
-		// 	$this->$errors['first_name']  = "Only Letters Allowed in First name";
-		// }
 
 		//Check last_name
 		if(empty($data['last_name'])){
 			$this->errors['last_name'] = "Last name is required";
+		}else
+		if(!preg_match("/^[a-zA-Z]+$/",trim($data['last_name']))){
+			$this->errors['first_name'] = "First name can only have Letters Without Spaces";
 		}
-		// else
-		// if(!preg_match('/[a-zA-Z]/',$data['last_name'])){
-		// 	$this->errors['last_name']  = "Only Letters Allowed in Last name";
-		// }
 
 		//Check Email
 
@@ -82,18 +80,32 @@ class User extends Model
 		return false;
 	}
 
-	public function edit_validate($data)
+	public function edit_validate($data,$id)
 	{
 		$this->errors = [];
 
 		//Check first_name
 		if(empty($data['first_name'])){
 			$this->errors['first_name'] = "First name is required";
+		}else
+		if(!preg_match("/^[a-zA-Z]+$/",trim($data['first_name']))){
+			$this->errors['first_name'] = "First name can only have Letters Without Spaces";
 		}
 
 		//Check last_name
 		if(empty($data['last_name'])){
 			$this->errors['last_name'] = "Last name is required";
+		}else
+		if(!preg_match("/^[a-zA-Z]+$/",trim($data['last_name']))){
+			$this->errors['first_name'] = "First name can only have Letters Without Spaces";
+		}
+
+		//Check phone 
+		if(!empty($data['phone'])){
+
+			if(!preg_match("/^(09|\+2609)[0-9]{8}$/",trim($data['phone']))){
+				$this->errors['phone'] = "Phone Number not valid";
+			}
 		}
 
 		//Check Email
@@ -101,8 +113,13 @@ class User extends Model
 		if(!filter_var($data['user_email'],FILTER_VALIDATE_EMAIL)){
 			$this->errors['user_email'] = "Email is not Valid";
 		}else
-		if($this->where(['user_email' => $data['user_email']])){
-			$this->errors['user_email'] = "That Email Already Existed";
+		if($results = $this->where(['user_email' => $data['user_email']])){
+			foreach($results as $result){
+
+				if($id !=$result->id)
+				$this->errors['user_email'] = "That Email Already Existed";
+			}
+			
 		}
 		//Facebook Validation
 		if(!empty($data['facebook_link'])){

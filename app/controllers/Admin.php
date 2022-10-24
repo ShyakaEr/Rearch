@@ -45,7 +45,7 @@ class Admin extends Controller
 			}
 
 			//Validate data
-			if($user->edit_validate($data)){
+			if($user->edit_validate($_POST,$id)){
 
 			$allowed  = ['image/jpeg','image/png'];
 
@@ -75,6 +75,7 @@ class Admin extends Controller
 				}
 			}
 			$user->update($id,$_POST);
+			message("Profile Update Successfully");
 			redirect('admin/profile/'.$id);
 		}
 			
