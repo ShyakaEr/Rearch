@@ -34,12 +34,13 @@ class User extends Model
 		$this->errors = [];
 
 		//Check first_name
-		if(empty($data['first_name'])){
-			$this->errors['first_name'] = "First name is required";
-		}else
 		if(!preg_match("/^[a-zA-Z]+$/",trim($data['first_name']))){
-			$this->errors['first_name'] = "First name can only have Letters Without Spaces";
+			$this->errors['first_name'] = "First name is required";
 		}
+		// else
+		// if(!preg_match("/^[a-zA-Z]+$/",trim($data['first_name']))){
+		// 	$this->errors['first_name'] = "First name can only have Letters Without Spaces";
+		// }
 
 		//Check last_name
 		if(empty($data['last_name'])){

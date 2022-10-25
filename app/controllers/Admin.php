@@ -60,6 +60,9 @@ class Admin extends Controller
 						$destination = $folder.time().$_FILES['image']['name'];
 						move_uploaded_file($_FILES['image']['tmp_name'],$destination);
 
+						//Resize The image
+						resize_image($destination);
+
 						$_POST['image'] = $destination;
 
 						//Delete the older image
