@@ -32,7 +32,7 @@ class Admin extends Controller
 
 		//Check whether Something has Posted and if row existed
 
-		if($_SERVER['REQUEST_METHOD'] == "POST" && $row && false){
+		if($_SERVER['REQUEST_METHOD'] == "POST" && $row){
 			
 			$folder   = "uploads/images/";
 
@@ -81,11 +81,18 @@ class Admin extends Controller
 			if(empty($errors)){
 
 				$user->update($id,$_POST);
-				message("Profile Update Successfully");
-				redirect('admin/profile/'.$id);
+				$arr['message'] = "Profile Update Successfully";
+				//message("Profile Update Successfully");
+				//redirect('admin/profile/'.$id);
+			}else{
+				$arr['message'] = "Please Correct these errors";
+				$arr['errors']  = $errors;
 			}
 			
+			echo json_encode($arr);
+			die;
 		}
+
 		$data['title'] = "Profile";
 		$data['errors']= $errors;
 		

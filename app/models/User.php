@@ -99,7 +99,7 @@ class User extends Model
 		//Check phone 
 		if(!empty($data['phone'])){
 
-			// if(!preg_match("/^(09|\+250)[0-9]{8}$/",trim($data['phone']))){
+			// if(!preg_match("/^(07|\+250)[0-9]{8}$/",trim($data['phone']))){
 			// 	$errors['phone'] = "Phone Number not valid";
 			// }
 		}
