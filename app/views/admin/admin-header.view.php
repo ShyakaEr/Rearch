@@ -28,13 +28,7 @@
 
   <!-- Template Main CSS File -->
   <link href="<?=ROOT;?>/nice/assets/css/style.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: NiceAdmin - v2.2.2
-  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  <link href="<?=ROOT;?>/assets/css/custom.css" rel="stylesheet">
 </head>
 
 <body>

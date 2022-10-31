@@ -121,7 +121,7 @@
                         <div class="pt-2">
                           <label href="#" class="btn btn-primary btn-sm" title="Upload new profile image">
                             <i class="text-white bi bi-upload"></i>
-                            <input onchange="load_image(this.files[0])" type="file" name="image" style="display:none;">
+                            <input class="js-profile-image-input" onchange="load_image(this.files[0])" type="file" name="image" style="display:none;">
                         </label>
                           <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
                         </div>
@@ -131,7 +131,7 @@
                     <div class="row mb-3">
                       <label for="first_name" class="col-md-4 col-lg-3 col-form-label">First Name</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="first_name" type="text" class="form-control" id="first_name" value="<?=set_value('first_name',$data['row']->first_name);?>">
+                        <input name="first_name" type="text" class="form-control" id="first_name" value="<?=set_value('first_name',$data['row']->first_name);?>" required>
                       </div>
                       <?php if(!empty($errors['first_name'])):?>
                         <small class="text-danger"><?=$errors['first_name']?></small>
@@ -141,7 +141,7 @@
                     <div class="row mb-3">
                       <label for="last_name" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
                       <div class="col-md-8 col-lg-9">
-                        <input name="last_name" type="text" class="form-control" id="last_name" value="<?=set_value('last_name',$data['row']->last_name);?>">
+                        <input name="last_name" type="text" class="form-control" id="last_name" value="<?=set_value('last_name',$data['row']->last_name);?>" required>
                       </div>
                       <?php if(!empty($errors['last_name'])):?>
                         <small class="text-danger"><?=$errors['last_name']?></small>
@@ -246,11 +246,15 @@
                       <?php endif;?>
                     </div>
 
+                    <div class="js-progress progress my-4 hide">
+                      <div class="progress-bar" role="progressbar" style="width:50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">Saving ... 100%</div>
+                    </div>
+
                     <div class="text-center">
                       <a href="<?=ROOT;?>/admin">
                       <button type="button" class="btn btn-primary float-start">Back</button>
                       </a>
-                      <button type="submit" class="btn btn-danger float-end">Save Changes</button>
+                      <button type="button" onclick="save_profile(event)" class="btn btn-danger float-end">Save Changes</button>
                     </div>
                   </form><!-- End Profile Edit Form -->
                   
@@ -369,7 +373,6 @@
          document.querySelector(".js-filename").innerHTML="Selected File: " + file.name;
 
          //create local resources for images
-
          var mylink = window.URL.createObjectURL(file);
          document.querySelector(".js-image-preview").src = mylink;
       }
@@ -378,5 +381,87 @@
       window.onload = function(){
         show_tab(tab);
       }
+
+      //upload function
+      function save_profile(e){
+
+        var form   = e.currentTarget.form;
+        var inputs = form.querySelectorAll("input,textarea");
+        var obj = {};
+        var image_added = false;
+
+        for(var i = 0; i< inputs.length; i++){
+          var key  = inputs[i].name;
+          if(key == 'image'){
+            if(typeof inputs[i].files[0] == 'object'){
+              obj[key]    = inputs[i].files[0];
+              image_added = true;
+            }
+            
+          }else{
+            obj[key] = inputs[i].value;
+          }
+        }
+
+        //validate image
+        if(image_added){
+
+          var allowed = ['jpg','jpeg','png'];
+          if(typeof obj.image == 'object'){
+            var ext =  obj.image.name.split(".").pop();
+          }
+
+          if(!allowed.includes(ext.toLowerCase())){
+            alert("Only These File Types are allowed in Profile Image : " + allowed.toString(","));
+            return;
+          }
+      }
+        send_data(obj);
+
+      }
+
+      function send_data(obj, progbar = 'js-progress'){
+        
+        var prog = document.querySelector("." + progbar);
+        prog.children[0].style.width     = "0%";
+        prog.classList.remove("hide");
+        //create virtual form to create and send data
+        var myform= new FormData();
+
+        for(key in obj){
+          myform.append(key,obj[key]);
+        }
+
+        //create HTTP request Object
+        var ajax  = new XMLHttpRequest();
+        ajax.addEventListener('readystatechange',function(){
+
+          if(ajax.readState == 4){
+
+            if(ajax.status ==200){
+              //everything went well
+              alert("upload completed");
+              window.location.reload();
+            }else{
+              //server error
+              alert("an error occured");
+            }
+          }
+        });
+        ajax.upload.addEventListener('progress',function(e){
+
+          var percentage   = Math.round((e.loaded / e.total) * 100);
+          console.log(percentage)
+          prog.children[0].style.width     = percentage + "%";
+          prog.children[0].style.innerHTML = "Saving ..." + percentage + "%";
+
+        });
+        ajax.open('post','',true);
+        ajax.send(myform);
+
+
+      }
+      
+
     </script>
   <?php $this->view('admin/admin-footer',$data);?>

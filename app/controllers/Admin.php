@@ -32,7 +32,7 @@ class Admin extends Controller
 
 		//Check whether Something has Posted and if row existed
 
-		if($_SERVER['REQUEST_METHOD'] == "POST" && $row){
+		if($_SERVER['REQUEST_METHOD'] == "POST" && $row && false){
 			
 			$folder   = "uploads/images/";
 
@@ -45,7 +45,7 @@ class Admin extends Controller
 			}
 
 			//Validate data
-			if($user->edit_validate($_POST,$id)){
+			$errors = $user->edit_validate($_POST,$id);
 
 			$allowed  = ['image/jpeg','image/png'];
 
@@ -71,20 +71,23 @@ class Admin extends Controller
 						}
 
 					}else{
-						$user->errors['image'] = "This file type is not allowed";
+						$errors['image'] = "This file type is not allowed";
 					}
 				}else{
-					$user->errors['image'] = "Could not uplaod image";
+					$errors['image'] = "Could not uplaod image";
 				}
 			}
-			$user->update($id,$_POST);
-			message("Profile Update Successfully");
-			redirect('admin/profile/'.$id);
-		}
+			
+			if(empty($errors)){
+
+				$user->update($id,$_POST);
+				message("Profile Update Successfully");
+				redirect('admin/profile/'.$id);
+			}
 			
 		}
 		$data['title'] = "Profile";
-		$data['errors']= $user->errors;
+		$data['errors']= $errors;
 		
 		$this->view('admin/profile',$data);
 	}

@@ -12,25 +12,26 @@ class Signup extends Controller
 		$data['errors'] = [];
 		$user           = new User();
 
-		
 
 		if($_SERVER['REQUEST_METHOD'] == 'POST'){
-
-			if($user->validate($_POST)){
-
-				var_dump ($user->validate($_POST));
 
 				$_POST['role']          = "user";
 				$_POST['create_at']     = date('Y-m-d H:i:s');
 				$_POST['user_password'] = password_hash($_POST['user_password'], PASSWORD_DEFAULT);
 
-				$user->insert($_POST);
-				message('Your Profile has successful created. Please Login');
-				redirect('login');
-		     }
+				$errors =  $user->validate($_POST);
+
+				if(empty($errors)){
+
+					$user->insert($_POST);
+					message('Your Profile has successful created. Please Login');
+					redirect('login');
+
+				}
+			
 		}
 
-		$data['errors'] = $user->errors;
+		$data['errors'] = $errors;
 		$data['title']  = "Signup";
 		$this->view('signup',$data);
 	}
