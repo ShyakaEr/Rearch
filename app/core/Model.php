@@ -60,6 +60,20 @@ class Model extends Database
 		return false;
 	}
 
+	public function findAll($order='ASC'){
+
+		$query= "select * from ".$this->table." ORDER BY id $order ";
+
+		$result=$this->query($query);
+
+		if(is_array($result)){
+
+			return $result;
+		}
+
+		return false;
+	}
+
 	public function first($data){
 
 		$keys = array_keys($data);

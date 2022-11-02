@@ -1,6 +1,4 @@
-
 <?php $this->view('admin/admin-header',$data);?>
-
 <?php if(!empty($row)):?>
     <div class="pagetitle">
       <h1>Profile</h1>
@@ -138,7 +136,7 @@
                         <input name="first_name" type="text" class="form-control" id="first_name" value="<?=set_value('first_name',$data['row']->first_name);?>" required>
                       </div>
                       <?php if(!empty($errors['first_name'])):?>
-                        <small class="js-error-first_name text-danger"><?=$errors['first_name']?></small>
+                        <small class="text-danger"><?=$errors['first_name']?></small>
                       <?php endif;?>
                       <small class="js-error-first_name text-danger"></small>
                     </div>
@@ -149,7 +147,7 @@
                         <input name="last_name" type="text" class="form-control" id="last_name" value="<?=set_value('last_name',$data['row']->last_name);?>" required>
                       </div>
                       <?php if(!empty($errors['last_name'])):?>
-                        <small class="js-error-last_name text-danger"><?=$errors['last_name']?></small>
+                        <small class="text-danger"><?=$errors['last_name']?></small>
                       <?php endif;?>
                       <small class="js-error-last_name text-danger"></small>
                     </div>
@@ -198,7 +196,7 @@
                         <input name="phone" type="text" class="form-control" id="Phone" value="<?=set_value('phone',$data['row']->phone);?>">
                       </div>
                       <?php if(!empty($errors['phone'])):?>
-                        <small class="js-error-phone text-danger"><?=$errors['phone']?></small>
+                        <small class="text-danger"><?=$errors['phone']?></small>
                       <?php endif;?>
                       <small class="js-error-phone text-danger"></small>
                     </div>
@@ -209,7 +207,7 @@
                         <input name="user_email" type="email" class="form-control" id="Email" value="<?=set_value('user_email',$data['row']->user_email);?>">
                       </div>
                       <?php if(!empty($errors['user_email'])):?>
-                        <small class="js-error-user_email text-danger"><?=$errors['user_email']?></small>
+                        <small class="text-danger"><?=$errors['user_email']?></small>
                       <?php endif;?>
                       <small class="js-error-user_email text-danger"></small>
                     </div>
@@ -220,7 +218,7 @@
                         <input name="twitter_link" type="text" class="form-control" id="Twitter" value="<?=set_value('twitter_link',$data['row']->twitter_link);?>">
                       </div>
                       <?php if(!empty($errors['twitter_link'])):?>
-                        <small class="js-error-twitter_link text-danger"><?=$errors['twitter_link']?></small>
+                        <small class="text-danger"><?=$errors['twitter_link']?></small>
                       <?php endif;?>
                       <small class="js-error-twitter_link text-danger"></small>
                     </div>
@@ -231,7 +229,7 @@
                         <input name="facebook_link" type="text" class="form-control" id="Facebook" value="<?=set_value('facebook_link',$data['row']->facebook_link);?>">
                       </div>
                       <?php if(!empty($errors['facebook_link'])):?>
-                        <small class="js-error-facebook_link text-danger"><?=$errors['facebook_link']?></small>
+                        <small class="text-danger"><?=$errors['facebook_link']?></small>
                       <?php endif;?>
                       <small class="js-error-facebook_link text-danger"></small>
                     </div>
@@ -242,7 +240,7 @@
                         <input name="instagram_link" type="text" class="form-control" id="Instagram" value="<?=set_value('instagram_link',$data['row']->instagram_link);?>">
                       </div>
                       <?php if(!empty($errors['instagram_link'])):?>
-                        <small class="js-error-instagram_link text-danger"><?=$errors['instagram_link']?></small>
+                        <small class="text-danger"><?=$errors['instagram_link']?></small>
                       <?php endif;?>
                       <small class="js-error-instagram_link text-danger"></small>
                     </div>
@@ -253,13 +251,13 @@
                         <input name="linkedin_link" type="text" class="form-control" id="Linkedin" value="<?=set_value('linkedin_link',$data['row']->linkedin_link);?>">
                       </div>
                       <?php if(!empty($errors['linkedin_link'])):?>
-                        <small class="js-error-linkedin_link text-danger"><?=$errors['linkedin_link']?></small>
+                        <small class="text-danger"><?=$errors['linkedin_link']?></small>
                       <?php endif;?>
                       <small class="js-error-linkedin_link text-danger"></small>
                     </div>
 
                     <div class="js-progress progress my-4 hide">
-                      <div class="progress-bar" role="progressbar" style="width:50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">Saving ... 100%</div>
+                      <div class="progress-bar" role="progressbar" style="width:50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">Saving.. 50%</div>
                     </div>
 
                     <div class="text-center">
@@ -437,6 +435,7 @@
         var prog = document.querySelector("." + progbar);
         prog.children[0].style.width     = "0%";
         prog.classList.remove("hide");
+
         //create virtual form to create and send data
         var myform= new FormData();
 
@@ -450,21 +449,22 @@
 
           if(ajax.readState == 4){
 
-            if(ajax.status ==200){
+            if(ajax.status == 200){
               //everything went well
-              handle_result(ajax.responseText);
+              console.log(ajax.responseText);
+              //handle_result(ajax.responseText);
             }else{
               //server error
               alert("an error occured");
             }
           }
         });
+
         ajax.upload.addEventListener('progress',function(e){
 
           var percentage   = Math.round((e.loaded / e.total) * 100);
-          console.log(percentage)
           prog.children[0].style.width     = percentage + "%";
-          prog.children[0].style.innerHTML = "Saving ..." + percentage + "%";
+          prog.children[0].innerHTML = "Saving ..." + percentage + "%";
 
         });
         ajax.open('post','',true);
@@ -495,8 +495,14 @@
       function display_errors(errors){
 
         for(key in errors){
-          document.querySelector(".js-error-"+key).innerHTML = errors[key];
+
+          console.log(".js-error-"+key);
+          document.querySelector(".js-error-firstname").innerHTML = errors[key];
+          //document.querySelector(".js-error-"+key).innerHTML = errors[key];
         }
       }
+      
+
+     
     </script>
   <?php $this->view('admin/admin-footer',$data);?>

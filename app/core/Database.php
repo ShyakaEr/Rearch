@@ -70,5 +70,56 @@ class Database
         ";
         
         $this->query($query);
+
+        //courses table 
+        $query  = "
+
+        CREATE TABLE `courses` (
+            `id` int NOT NULL AUTO_INCREMENT,
+            `descriptions` text,
+            `user_id` int DEFAULT NULL,
+            `category_id` int DEFAULT NULL,
+            `sub_category_id` int DEFAULT NULL,
+            `level_id` int DEFAULT NULL,
+            `language_id` int DEFAULT NULL,
+            `price_id` int DEFAULT NULL,
+            `promo_link` varchar(1024) DEFAULT NULL,
+            `welcome_message` varchar(1024) DEFAULT NULL,
+            `congratulations_message` varchar(2048) DEFAULT NULL,
+            `primary_subject` varchar(255) DEFAULT NULL,
+            `course_promo_video` varchar(1024) DEFAULT NULL,
+            `course_image` varchar(1024) DEFAULT NULL,
+            `create_at` datetime DEFAULT NULL,
+            `tags` varchar(2048) DEFAULT NULL,
+            `title` varchar(100) DEFAULT NULL,
+            PRIMARY KEY (`id`),
+            KEY `title` (`title`),
+            KEY `user_id` (`user_id`),
+            KEY `category_id` (`category_id`),
+            KEY `sub_category_id` (`sub_category_id`),
+            KEY `level_id` (`level_id`),
+            KEY `language_id` (`language_id`),
+            KEY `price_id` (`price_id`),
+            KEY `primary_subject` (`primary_subject`),
+            KEY `create_at` (`create_at`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+        ";
+        
+        $this->query($query);
+
+        //categories table 
+        $query  = "
+
+        CREATE TABLE `categories` (
+            `id` int NOT NULL AUTO_INCREMENT,
+            `category` varchar(50) DEFAULT NULL,
+            `disabled` tinyint(1) DEFAULT '0',
+            PRIMARY KEY (`id`),
+            KEY `category` (`category`),
+            KEY `disabled` (`disabled`)
+           ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+        ";
+        
+        $this->query($query);
     }
 }

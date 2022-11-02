@@ -77,10 +77,11 @@ class Admin extends Controller
 					$errors['image'] = "Could not uplaod image";
 				}
 			}
-			
-			if(empty($errors)){
 
-				$user->update($id,$_POST);
+			//Update data
+			$user->update($id,$_POST);
+
+			if(empty($errors)){
 				$arr['message'] = "Profile Update Successfully";
 				//message("Profile Update Successfully");
 				//redirect('admin/profile/'.$id);
@@ -88,15 +89,33 @@ class Admin extends Controller
 				$arr['message'] = "Please Correct these errors";
 				$arr['errors']  = $errors;
 			}
-			
 			echo json_encode($arr);
 			die;
 		}
-
+		
 		$data['title'] = "Profile";
 		$data['errors']= $errors;
 		
 		$this->view('admin/profile',$data);
+	}
+
+	public function courses($action=null,$id=null){
+
+		//Limit User Access 
+		if(!Auth::logged_in()){
+			redirect('login');
+			message('Please login to view the admin section');
+		}
+
+		$data['action'] = $action;
+		$data['id']     = $id;
+
+		if($action =='add'){
+
+			$category           = new Category();
+			$data['categories'] = $category->findAll();
+		}
+		$this->view('admin/courses',$data);
 	}
 
 }
