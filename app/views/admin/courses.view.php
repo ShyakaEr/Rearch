@@ -5,13 +5,16 @@
               <h5 class="card-title">New Course</h5>
 
               <!-- No Labels Form -->
-              <form class="row g-3">
+              <form class="row g-3" method="POST">
                 <div class="col-md-12">
-                  <input type="text" class="form-control" placeholder="Course Title">
+                  <input value="<?= set_value('title');?>" type="text" class="form-control <?=(!empty($errors['title']) ? 'border-danger':'');?>" name="title" placeholder="Course Title">
+                  <?php if(!empty($errors['title'])):?>
+                    <small class="text-danger"><?=$errors['title']?></small>
+                  <?php endif;?>
                 </div>
 
                 <div class="col-md-12">
-                  <select id="inputState" class="form-select">
+                  <select id="inputState" class="form-select <?=(!empty($errors['category_id']) ? 'border-danger':'');?>" name="category_id">
                     <option value="" selected>Course Category</option>
                     <?php if(!empty($categories)):?>
                         <?php foreach($categories as $cat):?>
@@ -19,10 +22,14 @@
                         <?php endforeach;?>
                     <?php endif;?>
                   </select>
+                  <?php if(!empty($errors['category_id'])):?>
+                    <small class="text-danger"><?=$errors['category_id']?></small>
+                  <?php endif;?>
                 </div>
                 
                 <div class="text-center">
                   <button type="submit" class="btn btn-primary">Save</button>
+
                   <a href="<?=ROOT;?>/admin/courses">
                    <button type="button" class="btn btn-secondary">Cancel</button>
                   </a>

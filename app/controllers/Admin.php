@@ -112,8 +112,38 @@ class Admin extends Controller
 
 		if($action =='add'){
 
-			$category           = new Category();
+			$category           = new Category_model();
+			$course             = new Course_model();
 			$data['categories'] = $category->findAll();
+
+			if($_SERVER['REQUEST_METHOD'] == "POST"){
+
+				//Validation
+				$errors             = $course->validate($_POST);
+
+				$user_id            = Auth::getId();
+				$_POST['create_at'] = date('Y-m-d');
+				$_POST['user_id']   = $user_id;
+
+				//Insert Data
+				$course->insert($_POST);
+
+				//Get Last Course Created By User
+				$row = $course->first(['user_id'=>$user_id,'published'=>0]);
+				message("Your Course was succesfuly Created ");
+				//Check Error
+				if(empty($errors)){
+					if($row){
+						redirect('admin/courses/edit/'.$row->id);
+						
+					}else{
+						redirect('admin/courses');
+						
+					}
+				}
+			}
+			$data['errors'] = $errors;
+			
 		}
 		$this->view('admin/courses',$data);
 	}

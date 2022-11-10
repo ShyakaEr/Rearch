@@ -74,7 +74,7 @@ class Model extends Database
 		return false;
 	}
 
-	public function first($data){
+	public function first($data,$order = 'desc'){
 
 		$keys = array_keys($data);
 		$query= "select * from ".$this->table." where ";
@@ -89,7 +89,7 @@ class Model extends Database
 		//Remove the &&
 
 		$query  = trim($query, "&& ");
-		$query .= " order by id desc limit 1";
+		$query .= " order by id $order limit 1";
 		$result = $this->query($query,$data);
 		if(is_array($result)){
 

@@ -92,6 +92,8 @@ class Database
             `create_at` datetime DEFAULT NULL,
             `tags` varchar(2048) DEFAULT NULL,
             `title` varchar(100) DEFAULT NULL,
+            `approved` tinyint(1) DEFAULT '0',
+            `published` tinyint(1) DEFAULT '0',
             PRIMARY KEY (`id`),
             KEY `title` (`title`),
             KEY `user_id` (`user_id`),
@@ -101,9 +103,11 @@ class Database
             KEY `language_id` (`language_id`),
             KEY `price_id` (`price_id`),
             KEY `primary_subject` (`primary_subject`),
-            KEY `create_at` (`create_at`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
-        ";
+            KEY `create_at` (`create_at`),
+            KEY `approved` (`approved`),
+            KEY `published` (`published`)
+           ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+           ";
         
         $this->query($query);
 
