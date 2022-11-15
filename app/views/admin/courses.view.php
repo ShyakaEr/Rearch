@@ -52,8 +52,9 @@
         <table class="table table-striped">
         <thead>
             <tr>
-            <th scope="col">#</th>
+            <th scope="col">ID</th>
             <th scope="col">Title</th>
+            <th scope="col">Instructor</th>
             <th scope="col">Category</th>
             <th scope="col">Price</th>
             <th scope="col">Primary Subject</th>
@@ -61,21 +62,28 @@
             <th scope="col">Action</th>
             </tr>
         </thead>
+        <?php if(!empty($rows)):?>
         <tbody>
+          <?php foreach($rows as $row):?>
             <tr>
-            <th scope="row">1</th>
-            <td>Brandon Jacob</td>
-            <td>Designer</td>
-            <td>Designer</td>
-            <td>28</td>
-            <td>2016-05-25</td>
+            <th scope="row"><?=$row->id;?></th>
+            <td><?=esc($row->title);?></td>
+            <td><?=esc($row->user_id_row->names ?? 'Unknown');?></td>
+            <td><?=esc($row->category_id_row->category ?? 'Unknown');?></td>
+            <td><?=esc($row->price_id);?></td>
+            <td><?=esc($row->primary_subject);?></td>
+            <td><?=esc($row->create_at);?></td>
             <td>
                 <i class="bi bi-pencil-square"></i> 
                 <i class="bi bi-trash-fill"></i>
             </td>
             </tr>
             <tr>
+              <?php endforeach;?>
         </tbody>
+        <?php else:?>
+          <tr class="text-center"   ><td col="10"> No records found !!</td></tr>
+          <?php endif;?>
     </table>
     <!-- End Table with stripped rows -->
 

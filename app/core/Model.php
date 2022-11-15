@@ -54,6 +54,15 @@ class Model extends Database
 
 		if(is_array($result)){
 
+			//Run afterSelect functions
+			if(property_exists($this,'afterSelect')){
+
+				foreach($this->afterSelect as $func){
+					
+					//run the functions
+					$result = $this->$func($result);
+				}
+			}
 			return $result;
 		}
 
@@ -67,7 +76,16 @@ class Model extends Database
 		$result=$this->query($query);
 
 		if(is_array($result)){
+			
+			//Run afterSelect functions
+			if(property_exists($this,'afterSelect')){
 
+				foreach($this->afterSelect as $func){
+					
+					//run the functions
+					$result = $this->$func($result);
+				}
+			}
 			return $result;
 		}
 
@@ -92,6 +110,16 @@ class Model extends Database
 		$query .= " order by id $order limit 1";
 		$result = $this->query($query,$data);
 		if(is_array($result)){
+
+			//Run afterSelect functions
+			if(property_exists($this,'afterSelect')){
+
+				foreach($this->afterSelect as $func){
+					
+					//run the functions
+					$result = $this->$func($result);
+				}
+			}
 
 			return $result[0];
 		}

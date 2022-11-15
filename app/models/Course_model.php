@@ -7,6 +7,18 @@ class Course_model extends Model
 {
 	public    $errors         = [];
 	protected $table          = "courses";
+
+	//Run This Functions within afterSelect Array
+	protected $afterSelect    = [
+		'get_user',
+		'get_category',
+		'get_sub_category',
+		'get_price',
+		'get_level',
+		'get_language',
+	];
+	//Run This Function within BeforeUpdate Array
+	protected $beforeUpdate   = [];
 	protected $allowedColumns = [
 
 		'descriptions',
@@ -123,6 +135,142 @@ class Course_model extends Model
 		}
 
 		return $errors;
+	}
+
+	protected function get_user($rows){
+		
+		//Create New Database Instance
+		$db  = new Database();
+
+		if(!empty($rows[0]->user_id)){
+
+			foreach ($rows as $key => $row) {
+
+				$query     = "SELECT first_name,last_name,role FROM users WHERE id = :id LIMIT 1";
+				$user_row  = $db->query($query,['id'=>$row->user_id]);
+
+				if(!empty($user_row)){
+					
+					$user_row[0]->names = $user_row[0]->first_name . '  ' .$user_row[0]->last_name;
+
+					//Add it to rows object
+					$rows[$key]->user_id_row = $user_row[0]; 
+				}
+			}
+		}
+
+		return $rows;
+	}
+
+	protected function get_category($rows){
+
+		//Create New Database Instance
+		$db  = new Database();
+
+		if(!empty($rows[0]->category_id)){
+
+			foreach ($rows as $key => $row) {
+
+				$query = "SELECT * FROM categories WHERE id = :id LIMIT 1";
+				$categ = $db->query($query,['id'=>$row->category_id]);
+
+				if(!empty($categ)){
+					
+					//Add it to rows
+					$rows[$key]->category_id_row = $categ[0]; 
+				}
+			}
+		}
+		return $rows;
+	}
+
+	protected function get_sub_category($rows){
+
+		//Create New Database Instance
+		$db  = new Database();
+
+		if(!empty($rows[0]->sub_category_id)){
+
+			foreach ($rows as $key => $row) {
+
+				$query   = "SELECT * FROM sub_categories WHERE id = :id LIMIT 1";
+				$sub_cat = $db->query($query,['id'=>$row->sub_category_id]);
+
+				if(!empty($sub_cat)){
+					
+					//Add it to rows
+					$rows[$key]->sub_category_id_row = $sub_cat[0]; 
+				}
+			}
+		}
+		return $rows;
+	}
+
+	protected function get_price($rows){
+
+		//Create New Database Instance
+		$db  = new Database();
+
+		if(!empty($rows[0]->price_id)){
+
+			foreach ($rows as $key => $row) {
+
+				$query     = "SELECT * FROM prices WHERE id = :id LIMIT 1";
+				$price_row = $db->query($query,['id'=>$row->price_id]);
+
+				if(!empty($price_row)){
+					
+					//Add it to rows
+					$rows[$key]->price_id_row = $price_row[0]; 
+				}
+			}
+		}
+		return $rows;
+	}
+
+	protected function get_level($rows){
+
+		//Create New Database Instance
+		$db  = new Database();
+
+		if(!empty($rows[0]->level_id)){
+
+			foreach ($rows as $key => $row) {
+
+				$query     = "SELECT * FROM levels WHERE id = :id LIMIT 1";
+				$level_row = $db->query($query,['id'=>$row->level_id]);
+
+				if(!empty($price_row)){
+					
+					//Add it to rows
+					$rows[$key]->level_id_row = $level_row[0]; 
+				}
+			}
+		}
+		return $rows;
+	}
+
+	protected function get_language($rows){
+		
+		//Create New Database Instance
+		$db  = new Database();
+
+		if(!empty($rows[0]->language_id)){
+
+			foreach ($rows as $key => $row) {
+
+				$query     = "SELECT * FROM languages WHERE id = :id LIMIT 1";
+				$lang_row  = $db->query($query,['id'=>$row->language_id]);
+
+				if(!empty($price_row)){
+					
+					//Add it to rows
+					$rows[$key]->language_id_row = $lang_row[0]; 
+				}
+			}
+		}
+
+		return $rows;
 	}
 
 }

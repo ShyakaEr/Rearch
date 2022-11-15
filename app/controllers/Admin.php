@@ -109,11 +109,15 @@ class Admin extends Controller
 
 		$data['action'] = $action;
 		$data['id']     = $id;
+		$user_id        = Auth::getId();
+
+		//Define Model
+		$category       = new Category_model();
+		$course         = new Course_model();
 
 		if($action =='add'){
 
-			$category           = new Category_model();
-			$course             = new Course_model();
+			
 			$data['categories'] = $category->findAll();
 
 			if($_SERVER['REQUEST_METHOD'] == "POST"){
@@ -121,7 +125,7 @@ class Admin extends Controller
 				//Validation
 				$errors             = $course->validate($_POST);
 
-				$user_id            = Auth::getId();
+				
 				$_POST['create_at'] = date('Y-m-d');
 				$_POST['user_id']   = $user_id;
 
@@ -130,11 +134,12 @@ class Admin extends Controller
 
 				//Get Last Course Created By User
 				$row = $course->first(['user_id'=>$user_id,'published'=>0]);
-				message("Your Course was succesfuly Created ");
+
 				//Check Error
 				if(empty($errors)){
 					if($row){
 						redirect('admin/courses/edit/'.$row->id);
+						message("Your Course was succesfuly Created ");
 						
 					}else{
 						redirect('admin/courses');
@@ -144,6 +149,9 @@ class Admin extends Controller
 			}
 			$data['errors'] = $errors;
 			
+		}else{
+			//View Courses
+			$data['rows'] = $course->where(['user_id'=>$user_id]);
 		}
 		$this->view('admin/courses',$data);
 	}
