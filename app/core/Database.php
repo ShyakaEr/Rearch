@@ -74,7 +74,7 @@ class Database
         //courses table 
         $query  = "
 
-        CREATE TABLE `courses` (
+        CREATE TABLE IF NOT EXISTS `courses` (
             `id` int NOT NULL AUTO_INCREMENT,
             `descriptions` text,
             `user_id` int DEFAULT NULL,
@@ -114,7 +114,7 @@ class Database
         //categories table 
         $query  = "
 
-        CREATE TABLE `categories` (
+        CREATE TABLE IF NOT EXISTS `categories` (
             `id` int NOT NULL AUTO_INCREMENT,
             `category` varchar(50) DEFAULT NULL,
             `disabled` tinyint(1) DEFAULT '0',
@@ -125,5 +125,26 @@ class Database
         ";
         
         $this->query($query);
+
+        //price table 
+        $query  = "
+        CREATE TABLE `prices` (
+            `id` int NOT NULL AUTO_INCREMENT,
+            `tier` varchar(30) DEFAULT NULL,
+            `price` decimal(10,0) DEFAULT NULL,
+            `disabled` tinyint(1) DEFAULT '0',
+            PRIMARY KEY (`id`),
+            KEY `price` (`price`),
+            KEY `disabled` (`disabled`),
+            KEY `tier` (`tier`)
+           ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
+        ";
+        
+        $this->query($query);
+
+         //insert price table 
+         $query  = "INSERT INTO `prices`(`id`,`tier`,`price`,`disabled`)VALUES(1,'Free','0',0)";
+
+         $this->query($query);
     }
 }

@@ -54,6 +54,15 @@ class Course_model extends Model
 			$errors['title'] = "Course Title can only have Letters Spaces and Special Symbols";
 		}
 
+		//Check primary_subject
+		if(empty($data['primary_subject'])){
+			$errors['primary_subject'] = "A primary Subject is required";
+		}
+		else
+		if(!preg_match("/^[a-zA-Z \-\_\&]+$/",trim($data['primary_subject']))){
+			$errors['primary_subject'] = "A primary Subject can only have Letters";
+		}
+
 		//Check category_id
 		if(empty($data['category_id'])){
 			$errors['category_id'] = "Category is required";
@@ -220,6 +229,8 @@ class Course_model extends Model
 
 				if(!empty($price_row)){
 					
+					$price_row[0]->tier = $price_row[0]->tier . ' ($' .$price_row[0]->price .')' ;
+
 					//Add it to rows
 					$rows[$key]->price_id_row = $price_row[0]; 
 				}

@@ -128,6 +128,7 @@ class Admin extends Controller
 				
 				$_POST['create_at'] = date('Y-m-d');
 				$_POST['user_id']   = $user_id;
+				$_POST['price_id']  = 1;
 
 				//Insert Data
 				$course->insert($_POST);
@@ -149,7 +150,14 @@ class Admin extends Controller
 			}
 			$data['errors'] = $errors;
 			
-		}else{
+		}elseif($action == 'edit'){
+
+			//get course information 
+			$data['row'] = $course->first(['user_id'=>$user_id,'id'=>$id]);
+
+		}
+		
+		else{
 			//View Courses
 			$data['rows'] = $course->where(['user_id'=>$user_id]);
 		}
