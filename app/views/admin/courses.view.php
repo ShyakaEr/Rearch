@@ -53,7 +53,7 @@
       <?php if(!empty($row)):?>
 
         <div class="float-end">
-          <button class="btn btn-success">Save</button>
+          <button class="js-save-button btn btn-success disabled">Save</button>
           <a href="<?=ROOT;?>/admin/courses">
            <button class="btn btn-primary">Back</button>
           </a>
@@ -79,9 +79,11 @@
             <button onclick="set_tab(this.getAttribute('data-bs-target'))" class="nav-link" id="course-messages-tab" data-bs-toggle="tab" data-bs-target="#course-messages" type="button" role="tab" aria-controls="contact" aria-selected="false">Course Messages</button>
           </li>
         </ul>
-        <div class="tab-content pt-2" id="borderedTabContent">
+        <div oninput="something_changed(event)" class="tab-content pt-2" id="borderedTabContent">
+
           <div class="tab-pane fade show active" id="intended-learners" role="tabpanel" aria-labelledby="intended-learners">
             1Sunt est soluta temporibus accusantium neque nam maiores cumque temporibus. Tempora libero non est unde veniam est qui dolor. Ut sunt iure rerum quae quisquam autem eveniet perspiciatis odit. Fuga sequi sed ea saepe at unde.
+            <input type="" name=""/>
           </div>
           <div class="tab-pane fade" id="curriculum" role="tabpanel" aria-labelledby="curriculum">
             2Nesciunt totam et. Consequuntur magnam aliquid eos nulla dolor iure eos quia. Accusantium distinctio omnis et atque fugiat. Itaque doloremque aliquid sint quasi quia distinctio similique. Voluptate nihil recusandae mollitia dolores. Ut laboriosam voluptatum dicta.
@@ -159,20 +161,66 @@
 <script>
 
   // Get Session from local storage    
-  var tab = sessionStorage.getItem("tab") ? sessionStorage.getItem("tab") : "#intended-learners";
-
+  var tab   = sessionStorage.getItem("tab") ? sessionStorage.getItem("tab") : "#intended-learners";
+  var dirty = false;
   //Call Specific Tab
   function show_tab(tab_name){
 
     const someTabTriggerEl = document.querySelector(tab_name + "-tab");
     const tab = new bootstrap.Tab(someTabTriggerEl);
     tab.show();
-}
+
+    //disabling the save button when we switch tabs
+      disabled_save_button(false);
+  }
 
   function set_tab(tab_name){
     tab = tab_name;
     sessionStorage.setItem("tab",tab_name);
-    alert(tab_name);
+
+    if(dirty){
+
+      //ask the user to save when switching tabs
+      if(!confirm("Your changes were not saved, continue ")){
+      
+        tab = dirty;
+        sessionStorage.setItem("tab",dirty);
+
+        setTimeout(() => {
+
+          //show the current tab
+          show_tab(dirty);
+
+          //enabling the save button after canceling switch tabs
+          disabled_save_button(true);
+        }, 10);
+
+      }else{
+        dirty = false;
+
+        //disabling the save button on next switch tabs
+        disabled_save_button(false);
+      }
+    }
+    
+}
+
+function something_changed(e){
+
+  dirty = tab;
+
+  //when something change disabled is equal to true
+  disabled_save_button(true);
+
+}
+
+function disabled_save_button(status = false){
+    
+  if(status){
+    document.querySelector(".js-save-button").classList.remove("disabled");
+  }else{
+    document.querySelector(".js-save-button").classList.add("disabled");
+  }
 }
 </script>
 <?php $this->view('admin/admin-footer',$data);?>
