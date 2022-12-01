@@ -6,13 +6,16 @@
     margin-bottom:10px;
     justify-content:center;
     text-align:center;
+    flex-wrap: wrap;
   }
   .my-tab{
     flex:1;
     border-bottom: solid 2px #ccc;
     padding-bottom: 10px;
+    padding-top: 10px;
     cursor: pointer;
     user-select:none;
+    min-width:150px;
   }
   .my-tab:hover{
     color:#4154f1;
@@ -23,6 +26,14 @@
   }
   .hide{
     display:none;
+  }
+  .loader{
+    position:relative;
+    width: 200px;
+    height:200px;
+    left:41.8%;
+    top:50%;
+    opacity:0.5;
   }
 </style>
 <?php if($action=='add'):?>
@@ -102,11 +113,9 @@
 
         <!-- div-tabs -->
         <div oninput="something_changed(event)">
-          <div id="intended-learners-div" class="div-tab">1</div>
-          <div id="curriculum-div" class="div-tab hide">2</div>
-          <div id="course-landing-page-div" class="div-tab hide">3</div>
-          <div id="promotions-div" class="div-tab hide">4</div>
-          <div id="course-messages-div" class="div-tab hide">5</div>
+          <div id="tabs-content">
+          </div>
+          
         </div>
         <!-- end div-tabs -->
         <?php else:?>
@@ -171,85 +180,116 @@
 <?php endif;?>
 <script>
 
-  // Get Session from local storage    
-  var tab   = sessionStorage.getItem("tab") ? sessionStorage.getItem("tab") : "#intended-learners";
+  //Get Session from local storage 
+  var tab = sessionStorage.getItem("tab") ? sessionStorage.getItem("tab"): "intended-learners";
   var dirty = false;
+
   //Call Specific Tab
-  function show_tab(tab_name){
+  function show_tab(tab_name)
+  {
+ 
+    var contentDiv = document.querySelector("#tabs-content");
+    show_loader(contentDiv);
 
-    const someTabTriggerEl = document.querySelector(tab_name + "-tab");
-    const tab = new bootstrap.Tab(someTabTriggerEl);
-    tab.show();
-
-    //disabling the save button when we switch tabs
-      disabled_save_button(false);
-  }
-
-  function set_tab(tab_name,div){
-
-    //grab the child from parent node to trigger the current active tabs
+    //change active tab
+    var div = document.querySelector("#"+tab_name);
     var children = div.parentNode.children;
-
-    for (let i = 0; i < children.length; i++) {
-      children[i].classList.remove("active-tab"); 
+    for (var i = 0; i < children.length; i++) {
+      children[i].classList.remove("active-tab");
     }
+
     div.classList.add("active-tab");
 
-    //grab single divTabs that was Clicked
-    children =  document.querySelector("#"+tab_name+"-div").parentNode.children;
+    var data = {};
+    data.tab_name = tab;
+    data.data_type = "read";
+    send_data(data);
 
-    for (let i = 0; i < children.length; i++) {
-      children[i].classList.add("hide"); 
+    //disabling the save button when we switch tabs
+    disable_save_button(false);
+
+  }
+
+  function send_data(obj)
+  {
+
+    //create virtual form to create and send data
+    var myform = new FormData();
+    for(key in obj){
+      myform.append(key,obj[key]); 
     }
-    document.querySelector("#"+tab_name+"-div").classList.remove("hide");
 
-    return;
-    tab = tab_name;
-    sessionStorage.setItem("tab",tab_name);
+    //create HTTP request Object
+    var ajax = new XMLHttpRequest();
+    ajax.addEventListener('readystatechange',function(){
 
-    if(dirty){
+      if(ajax.readyState == 4){
 
-      //ask the user to save when switching tabs
-      if(!confirm("Your changes were not saved, continue ")){
-      
-        tab = dirty;
-        sessionStorage.setItem("tab",dirty);
+        if(ajax.status == 200){
+          //everything went well
+          //alert("upload complete");
+          handle_result(ajax.responseText);
+        }else{
+          //error
+          alert("an error occurred");
+        }
+      }
+    });
+ 
+    ajax.open('post','',true);
+    ajax.send(myform);
 
-        setTimeout(() => {
+  }
 
-          //show the current tab
-          show_tab(dirty);
 
-          //enabling the save button after canceling switch tabs
-          disabled_save_button(true);
-        }, 10);
+  function handle_result(result)
+  {
+    var contentDiv = document.querySelector("#tabs-content");
+    contentDiv.innerHTML = result;
 
-      }else{
-        dirty = false;
+  }
 
-        //disabling the save button on next switch tabs
-        disabled_save_button(false);
+  function set_tab(tab_name)
+  {
+
+    if(dirty)
+    {
+      //ask user to save when switching tabs
+      if(!confirm("Your changes were not saved. continue?!"))
+      {
+        return;
       }
     }
-    
-}
 
-function something_changed(e){
+    //set a new tabs
+    tab = tab_name;
+    sessionStorage.setItem("tab", tab_name);
 
-  dirty = tab;
+    dirty = false;
+    show_tab(tab_name);
 
-  //when something change disabled is equal to true
-  disabled_save_button(true);
-
-}
-
-function disabled_save_button(status = false){
-    
-  if(status){
-    document.querySelector(".js-save-button").classList.remove("disabled");
-  }else{
-    document.querySelector(".js-save-button").classList.add("disabled");
   }
-}
+
+  function something_changed(e)
+  {
+    dirty = tab;
+    disable_save_button(true);
+  }
+
+  function disable_save_button(status = false)
+  {
+    if(status){
+      document.querySelector(".js-save-button").classList.remove("disabled");
+    }else{
+      document.querySelector(".js-save-button").classList.add("disabled");
+    }
+  }
+
+  function show_loader(item)
+  {
+    item.innerHTML = '<img class="loader" src="<?=ROOT?>/assets/images/loader.gif">';
+  }
+
+  show_tab(tab);
 </script>
 <?php $this->view('admin/admin-footer',$data);?>

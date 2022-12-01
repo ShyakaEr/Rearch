@@ -137,3 +137,7 @@ function resize_image($filename,$max_size = 700)
 	return $filename;
 }
 
+function views_path($file_path){
+	return "../app/views/".$file_path.".view.php";
+}
+

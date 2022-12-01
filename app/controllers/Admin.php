@@ -124,8 +124,6 @@ class Admin extends Controller
 
 				//Validation
 				$errors             = $course->validate($_POST);
-
-				
 				$_POST['create_at'] = date('Y-m-d');
 				$_POST['user_id']   = $user_id;
 				$_POST['price_id']  = 1;
@@ -155,8 +153,20 @@ class Admin extends Controller
 			//get course information 
 			$data['row'] = $course->first(['user_id'=>$user_id,'id'=>$id]);
 
+			//check the post method from send data function
+			if($_SERVER['REQUEST_METHOD'] == "POST"){
+
+				if(!empty($_POST['data_type']) && $_POST['data_type']=="read"){
+
+					if($_POST['tab_name'] =="course-landing-page"){
+
+						include views_path("course-edit-tabs/course-landing-page");
+					}
+				}
+				die;
+			}
+
 		}
-		
 		else{
 			//View Courses
 			$data['rows'] = $course->where(['user_id'=>$user_id]);
