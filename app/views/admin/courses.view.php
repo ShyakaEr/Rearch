@@ -61,8 +61,8 @@
                   <select id="inputState" class="form-select <?=(!empty($errors['category_id']) ? 'border-danger':'');?>" name="category_id">
                     <option value="" selected>Course Category</option>
                     <?php if(!empty($categories)):?>
-                        <?php foreach($categories as $cat):?>
-                          <option value="<?=$cat->id;?>"><?=esc($cat->category)?></option>
+                      <?php foreach($categories as $cat):?>
+                        <option <?=set_select('category_id',$cat->id)?> value="<?=$cat->id?>"><?=esc($cat->category)?></option>
                         <?php endforeach;?>
                     <?php endif;?>
                   </select>
@@ -200,10 +200,10 @@
 
     div.classList.add("active-tab");
 
-    var data = {};
-    data.tab_name = tab;
-    data.data_type = "read";
-    send_data(data);
+    send_data({
+      tab_name:tab,
+      data_type:"read",
+    });
 
     //disabling the save button when we switch tabs
     disable_save_button(false);

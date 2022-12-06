@@ -141,3 +141,23 @@ function views_path($file_path){
 	return "../app/views/".$file_path.".view.php";
 }
 
+function set_select($key, $value, $default = '')
+{
+
+	if(!empty($_POST[$key]))
+	{
+		if($value == $_POST[$key]){
+			return ' selected ';
+		}
+	}else
+	if(!empty($default))
+	{
+		if($value == $default){
+			return ' selected ';
+		}
+	}
+
+	return '';
+}
+ 
+

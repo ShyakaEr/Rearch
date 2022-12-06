@@ -117,8 +117,8 @@ class Admin extends Controller
 
 		if($action =='add'){
 
-			
-			$data['categories'] = $category->findAll();
+			//read all categories
+			$data['categories'] = $category->findAll('asc');
 
 			if($_SERVER['REQUEST_METHOD'] == "POST"){
 
@@ -150,16 +150,20 @@ class Admin extends Controller
 			
 		}elseif($action == 'edit'){
 
+			//read all categories
+			$categories  = $category->findAll('asc');
+
 			//get course information 
-			$data['row'] = $course->first(['user_id'=>$user_id,'id'=>$id]);
+			$data['row'] = $row = $course->first(['user_id'=>$user_id,'id'=>$id]);
 
 			//check the post method from send data function
-			if($_SERVER['REQUEST_METHOD'] == "POST"){
+			if($_SERVER['REQUEST_METHOD'] == "POST" && $row){
 
 				if(!empty($_POST['data_type']) && $_POST['data_type']=="read"){
 
 					if($_POST['tab_name'] =="course-landing-page"){
 
+						echo $_POST['course_id'];
 						include views_path("course-edit-tabs/course-landing-page");
 					}
 				}
