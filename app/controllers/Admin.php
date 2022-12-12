@@ -114,6 +114,11 @@ class Admin extends Controller
 		//Define Model
 		$category       = new Category_model();
 		$course         = new Course_model();
+		$language       = new Language_model();
+		$course_level   = new CourseLevel_model();
+		$price          = new Price_model();
+		$currency       = new Currency_model();
+
 
 		if($action =='add'){
 
@@ -150,11 +155,18 @@ class Admin extends Controller
 			
 		}elseif($action == 'edit'){
 
-			//read all categories
-			$categories  = $category->findAll('asc');
+			//read data from different Models 
+		
+			$categories    = $category->findAll('asc');
+			$languages     = $language->findAll('asc');
+			$course_levels = $course_level->findAll('asc');
+			$prices        = $price->findAll('asc');
+		    $currencies    = $currency->findAll('asc');
 
 			//get course information 
 			$data['row'] = $row = $course->first(['user_id'=>$user_id,'id'=>$id]);
+
+
 
 			//check the post method from send data function
 			if($_SERVER['REQUEST_METHOD'] == "POST" && $row){

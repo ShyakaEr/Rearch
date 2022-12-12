@@ -143,7 +143,7 @@ function views_path($file_path){
 
 function set_select($key, $value, $default = '')
 {
-
+ 
 	if(!empty($_POST[$key]))
 	{
 		if($value == $_POST[$key]){
@@ -158,6 +158,7 @@ function set_select($key, $value, $default = '')
 	}
 
 	return '';
+	
 }
  
 
