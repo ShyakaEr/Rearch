@@ -72,7 +72,7 @@
                 </div>
                 
                 <div class="text-center">
-                  <button type="submit" class="btn btn-primary">Save</button>
+                  <button  type="submit" class="btn btn-primary">Save</button>
 
                   <a href="<?=ROOT;?>/admin/courses">
                    <button type="button" class="btn btn-secondary">Cancel</button>
@@ -90,7 +90,7 @@
       <?php if(!empty($row)):?>
 
         <div class="float-end">
-          <button class="js-save-button btn btn-success disabled">Save</button>
+          <button onclick="save_content()" class="js-save-button btn btn-success disabled">Save</button>
           <a href="<?=ROOT;?>/admin/courses">
            <button class="btn btn-primary">Back</button>
           </a>
@@ -244,9 +244,25 @@
 
   function handle_result(result)
   {
-    var contentDiv = document.querySelector("#tabs-content");
-    contentDiv.innerHTML = result;
 
+    var obj  = JSON.parse(result);
+
+    if(typeof obj == 'object'){
+
+      if(obj.data_type == "read"){
+
+        var contentDiv       = document.querySelector("#tabs-content");
+        contentDiv.innerHTML = obj.data ;
+
+      }else
+      if(obj.data_type == "save"){
+
+        console.log("data saved");
+        //alert("data saved"); 
+      }
+      
+    }
+    
   }
 
   function set_tab(tab_name)
@@ -291,5 +307,28 @@
   }
 
   show_tab(tab);
+
+//For Saving Content
+ function save_content(){
+
+  var content   = document.querySelector("#tabs-content");
+  var inputs    = content.querySelectorAll("input,textarea,select");
+   
+  var obj       = {};
+  obj.data_type = "save";
+  obj.tab_name  = tab;
+
+  send_data({
+      tab_name:tab,
+      data_type:"read",
+    });
+    
+    for (var i = 0; i < inputs.length; i++) {
+
+      var key = inputs[i].name;
+      obj[key]= inputs[i].value;
+      
+    }
+ }
 </script>
 <?php $this->view('admin/admin-footer',$data);?>

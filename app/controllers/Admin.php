@@ -167,7 +167,6 @@ class Admin extends Controller
 			$data['row'] = $row = $course->first(['user_id'=>$user_id,'id'=>$id]);
 
 
-
 			//check the post method from send data function
 			if($_SERVER['REQUEST_METHOD'] == "POST" && $row){
 
@@ -175,8 +174,22 @@ class Admin extends Controller
 
 					if($_POST['tab_name'] =="course-landing-page"){
 
-						echo $_POST['course_id'];
-						include views_path("course-edit-tabs/course-landing-page");
+						$info['data']      = file_get_contents(ROOT."/ajax/course_edit/".$user_id."/".$id);
+						$info['data_type'] = "read";
+
+						//send json data
+						echo json_encode($info);
+					}
+				}else
+				if(!empty($_POST['data_type']) && $_POST['data_type']=="save"){
+
+					if($_POST['tab_name'] =="course-landing-page"){
+
+						$info['data']      = "";
+						$info['data_type'] = "save";
+
+						//send json data
+						echo json_encode($info);
 					}
 				}
 				die;
